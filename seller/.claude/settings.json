@@ -1,0 +1,25 @@
+{
+  "enableAllProjectMcpServers": true,
+  "permissions": {
+    "allow": [
+      "Bash(node balance.mjs*)",
+      "Bash(node stock.mjs*)",
+      "Bash(node server.mjs*)",
+      "Bash(curl -s http://localhost:*)",
+      "Bash(tail *sales.log*)",
+      "Bash(cat sales.log)",
+      "mcp__1claw__list_secrets",
+      "mcp__1claw__describe_secret",
+      "mcp__1claw__get_secret",
+      "mcp__1claw__put_secret",
+      "mcp__1claw__inspect_content",
+      "mcp__1claw__list_signing_keys"
+    ],
+    "deny": [
+      "Read(../buyer/**)",
+      "Read(../.env.human)",
+      "Read(./.env)",
+      "Bash(cat *.env*)"
+    ]
+  }
+}

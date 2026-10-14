@@ -1,0 +1,27 @@
+{
+  "name": "1claw-claude-code-demo",
+  "private": true,
+  "type": "module",
+  "description": "Two Claude Code agents trading conference leads over x402 on Base, with identity, keys and spend limits held by 1Claw.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "bootstrap": "node setup/bootstrap.mjs",
+    "seller:stock": "node seller/stock.mjs",
+    "seller:serve": "node seller/server.mjs",
+    "buyer:discover": "node buyer/discover.mjs",
+    "buyer:buy": "node buyer/buy.mjs",
+    "guardrails": "node setup/pay-guardrails.mjs",
+    "dashboard": "node dashboard/server.mjs",
+    "dashboard:deploy": "node dashboard/deploy.mjs"
+  },
+  "dependencies": {
+    "@1claw/sdk": "^0.62.0",
+    "@coinbase/x402": "^2.1.0",
+    "@x402/core": "^2.28.0",
+    "@x402/evm": "^2.28.0",
+    "@x402/express": "^2.28.0",
+    "express": "^5.1.0"
+  }
+}

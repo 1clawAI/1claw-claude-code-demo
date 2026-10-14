@@ -1,0 +1,16 @@
+{
+  "network": "eip155:8453",
+  "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "seller": {
+    "name": "LeadForge",
+    "agent_id": "18e31b9e-2700-4669-aaae-82bbbf280e4d",
+    "address": "0x537a8a6bf0ef29a84a9d3a4a750dae0c4d65b453",
+    "url": "http://localhost:4021"
+  },
+  "buyer": {
+    "name": "Pipeline",
+    "agent_id": "36fe63c2-7aa7-40e5-8ebc-d16247cf0ad1",
+    "address": "0x32f63c103af612b29071e10d521b66316902097a",
+    "guardrails": { "per_payment_usd": 0.5, "daily_usd": 1.0, "pay_to": "LeadForge only" }
+  }
+}

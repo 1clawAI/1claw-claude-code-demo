@@ -1,0 +1,11 @@
+node_modules/
+.env
+.env.*
+!.env*.example
+**/.env
+buyer/out/
+seller/sales.log
+events.jsonl
+.DS_Store
+.vercel/
+.claude/settings.local.json

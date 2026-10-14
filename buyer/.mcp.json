@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "1claw": {
+      "command": "npx",
+      "args": ["-y", "@1claw/mcp@0.63.12"],
+      "env": {
+        "ONECLAW_AGENT_API_KEY": "${ONECLAW_AGENT_API_KEY}",
+        "ONECLAW_AGENT_ID": "${ONECLAW_AGENT_ID}",
+        "ONECLAW_VAULT_ID": "${ONECLAW_VAULT_ID}"
+      }
+    }
+  }
+}
