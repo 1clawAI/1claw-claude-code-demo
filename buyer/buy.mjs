@@ -104,8 +104,20 @@ const signed = unwrap(await client.pay.sign(agentId, { session_id: prepared.sess
 log(`1claw │ signed $${signed.amount_usd} to ${signed.pay_to}  (payment ${signed.payment_id})`);
 
 // ── 4. Present payment (v2 header + v1 alias) ─────────────────────────────
+// 1Claw returns a hybrid envelope (x402Version 1, network "base", plus a v2
+// `accepted` block) that the CDP facilitator rejects for a v2 challenge.
+// The signature only covers `payload.authorization`, so re-wrapping it as a
+// clean v2 PaymentPayload is safe.
+let paymentHeader = signed.payment_header;
+if (challenge.x402Version === 2) {
+  const raw = JSON.parse(Buffer.from(signed.payment_header, "base64").toString());
+  if (raw.x402Version !== 2) {
+    const v2 = { x402Version: 2, resource: challenge.resource, accepted: raw.accepted ?? accept, payload: raw.payload };
+    paymentHeader = Buffer.from(JSON.stringify(v2)).toString("base64");
+  }
+}
 const paid = await fetch(url, {
-  headers: { "PAYMENT-SIGNATURE": signed.payment_header, "X-PAYMENT": signed.payment_header },
+  headers: { "PAYMENT-SIGNATURE": paymentHeader, "X-PAYMENT": paymentHeader },
 });
 const paidText = await paid.text();
 const settlementHeader = paid.headers.get("payment-response") ?? paid.headers.get("x-payment-response");
@@ -120,7 +132,7 @@ await client.pay
 
 if (!paid.ok) {
   emit("error", { amount_usd: Number(signed.amount_usd), reason: `seller returned ${paid.status}` });
-  log(`✗ seller returned ${paid.status}: ${paidText.slice(0, 300)}`);
+  const why = paid.headers.get("payment-required"); log(`✗ seller returned ${paid.status}: ${why ? JSON.parse(Buffer.from(why, "base64").toString()).error : paidText.slice(0, 300)}`);
   return { url, ok: false, error: `seller returned ${paid.status}` };
 }
 log(`${paid.status} │ paid${settlement?.transaction ? `  tx https://basescan.org/tx/${settlement.transaction}` : ""}`);
